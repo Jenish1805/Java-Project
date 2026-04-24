@@ -20,26 +20,23 @@ class Cycle {
     }
 
     public void calculate() {
-        this.coolingEffect = this.massFlowRate * this.specificHeat * this.evaporatorTemperature;
 
-        this.workDoneByCompressor = this.massFlowRate * this.specificHeat
-                * (this.condenserTemperature - this.evaporatorTemperature);
+        coolingEffect = massFlowRate * specificHeat * evaporatorTemperature;
 
-        if (this.workDoneByCompressor == 0) {
-            this.coefficientOfPerformance = 0;
+        workDoneByCompressor = massFlowRate * specificHeat
+                * (condenserTemperature - evaporatorTemperature);
+
+        if (workDoneByCompressor == 0) {
+            coefficientOfPerformance = 0;
         } else {
-            this.coefficientOfPerformance = this.coolingEffect / this.workDoneByCompressor;
+            coefficientOfPerformance = coolingEffect / workDoneByCompressor;
         }
     }
 
     public String getEfficiencyRating() {
-        if (this.coefficientOfPerformance < 2.0) {
-            return "Poor";
-        } else if (this.coefficientOfPerformance <= 4.0) {
-            return "Moderate";
-        } else {
-            return "Good";
-        }
+        if (coefficientOfPerformance < 2.0) return "Poor";
+        else if (coefficientOfPerformance <= 4.0) return "Moderate";
+        else return "Good";
     }
 
     public String getCycleLabel() { return cycleLabel; }
@@ -56,74 +53,89 @@ class Simulator {
 
     public void runSimulation(Cycle cycle) {
 
-        System.out.println("Stage 1: Compression");
-        System.out.println("Compressor increases pressure of refrigerant.");
-        System.out.println("Work Done by Compressor: " + cycle.getWorkDoneByCompressor());
+        System.out.println();
+        System.out.println("Stage 1 - Compression");
+        System.out.println("Compressor increases pressure");
+        System.out.println("Work done: " + cycle.getWorkDoneByCompressor());
+
         System.out.println();
 
-        System.out.println("Stage 2: Condensation");
-        System.out.println("Refrigerant releases heat in condenser.");
-        System.out.println("Condenser Temperature: " + cycle.getCondenserTemperature());
+        System.out.println("Stage 2 - Condensation");
+        System.out.println("Heat is released in condenser");
+        System.out.println("Condenser temp: " + cycle.getCondenserTemperature());
+
         System.out.println();
 
-        System.out.println("Stage 3: Expansion");
-        System.out.println("Pressure drops in expansion valve.");
+        System.out.println("Stage 3 - Expansion");
+        System.out.println("Pressure drops through valve");
+
         System.out.println();
 
-        System.out.println("Stage 4: Evaporation");
-        System.out.println("Refrigerant absorbs heat in evaporator.");
-        System.out.println("Cooling Effect: " + cycle.getCoolingEffect());
+        System.out.println("Stage 4 - Evaporation");
+        System.out.println("Heat is absorbed in evaporator");
+        System.out.println("Cooling effect: " + cycle.getCoolingEffect());
+
         System.out.println();
     }
 }
 
 class Display {
 
-    public void printWelcomeBanner() {
+    public void printWelcome() {
         System.out.println("Vapour Compression Refrigeration Cycle Simulator");
+        System.out.println();
     }
 
-    public void printMainMenu() {
-        System.out.println();
-        System.out.println("1. Run New Simulation");
-        System.out.println("2. View History");
-        System.out.println("3. Compare Two Results");
+    public void menu() {
+        System.out.println("1. New simulation");
+        System.out.println("2. History");
+        System.out.println("3. Compare");
         System.out.println("4. Exit");
-        System.out.print("Enter choice: ");
+        System.out.print("Choose option: ");
     }
 
-    public void printCycleResult(Cycle cycle) {
+    public void showResult(Cycle c){
         System.out.println();
-        System.out.println("Results for " + cycle.getCycleLabel());
-        System.out.println("Evaporator Temperature: " + cycle.getEvaporatorTemperature());
-        System.out.println("Condenser Temperature: " + cycle.getCondenserTemperature());
-        System.out.println("Mass Flow Rate: " + cycle.getMassFlowRate());
-        System.out.println("Specific Heat: " + cycle.getSpecificHeat());
-        System.out.println("Cooling Effect: " + cycle.getCoolingEffect());
-        System.out.println("Work Done: " + cycle.getWorkDoneByCompressor());
-        System.out.println("COP: " + cycle.getCoefficientOfPerformance());
-        System.out.println("Efficiency: " + cycle.getEfficiencyRating());
+        System.out.println("Result - " + c.getCycleLabel());
+        System.out.println();
+        System.out.println("Evaporator temp: " + c.getEvaporatorTemperature());
+        System.out.println("Condenser temp: " + c.getCondenserTemperature());
+        System.out.println("Mass flow rate: " + c.getMassFlowRate());
+        System.out.println("Specific heat: " + c.getSpecificHeat());
+        System.out.println();
+        System.out.println("Cooling effect: " + c.getCoolingEffect());
+        System.out.println("Work done: " + c.getWorkDoneByCompressor());
+        System.out.println("COP: " + c.getCoefficientOfPerformance());
+        System.out.println("Efficiency: " + c.getEfficiencyRating());
+        System.out.println();
     }
 
-    public void printHistory(Cycle[] history, int count) {
+    public void history(Cycle[] h, int count) {
+
         System.out.println();
-        System.out.println("Simulation History");
+        System.out.println("History");
 
         if (count == 0) {
-            System.out.println("No simulations available.");
+            System.out.println("No data yet");
             return;
         }
 
         for (int i = 0; i < count; i++) {
-            Cycle c = history[i];
-            System.out.println((i + 1) + ". " + c.getCycleLabel() +
+            Cycle c = h[i];
+
+            System.out.println(
+                    (i + 1) + ". " + c.getCycleLabel() +
                     " Te=" + c.getEvaporatorTemperature() +
                     " Tc=" + c.getCondenserTemperature() +
-                    " COP=" + c.getCoefficientOfPerformance());
+                    " COP=" + c.getCoefficientOfPerformance()
+            );
         }
+
+        System.out.println();
     }
 
-    public void printComparison(Cycle a, Cycle b) {
+    public void compare(Cycle a, Cycle b) {
+
         System.out.println();
         System.out.println("Comparison");
 
@@ -131,131 +143,88 @@ class Display {
         System.out.println(b.getCycleLabel() + " COP: " + b.getCoefficientOfPerformance());
 
         if (a.getCoefficientOfPerformance() > b.getCoefficientOfPerformance()) {
-            System.out.println(a.getCycleLabel() + " is more efficient.");
+            System.out.println(a.getCycleLabel() + " is more efficient");
         } else if (b.getCoefficientOfPerformance() > a.getCoefficientOfPerformance()) {
-            System.out.println(b.getCycleLabel() + " is more efficient.");
+            System.out.println(b.getCycleLabel() + " is more efficient");
         } else {
-            System.out.println("Both have equal efficiency.");
+            System.out.println("Both are equal");
         }
+
+        System.out.println();
     }
 
-    public void printError(String message) {
-        System.out.println("Error: " + message);
+    public void error(String msg) {
+        System.out.println("Error: " + msg);
     }
 
-    public void printInfo(String message) {
-        System.out.println(message);
-    }
-
-    public void printGoodbye() {
-        System.out.println("Program ended.");
-    }
-}
-
-class InputHandler {
-
-    private Scanner scanner;
-
-    public InputHandler(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public double readEvaporatorTemperature() {
-        System.out.print("Enter Evaporator Temperature (K): ");
-        return scanner.nextDouble();
-    }
-
-    public double readCondenserTemperature(double te) {
-        System.out.print("Enter Condenser Temperature (K): ");
-        return scanner.nextDouble();
-    }
-
-    public double readMassFlowRate() {
-        System.out.print("Enter Mass Flow Rate: ");
-        return scanner.nextDouble();
-    }
-
-    public double readSpecificHeat() {
-        System.out.print("Enter Specific Heat (or 1.0 default): ");
-        return scanner.nextDouble();
-    }
-
-    public int readMenuChoice() {
-        return scanner.nextInt();
-    }
-
-    public int readCycleIndex(String prompt, int count) {
-        System.out.print(prompt + ": ");
-        return scanner.nextInt() - 1;
-    }
-
-    public boolean readYesOrNo(String prompt) {
-        System.out.print(prompt + " (1 for yes, 0 for no): ");
-        return scanner.nextInt() == 1;
+    public void bye() {
+        System.out.println("Program finished");
     }
 }
 
 public class Main {
-
-    private static final int MAX_HISTORY = 20;
-    private static Cycle[] history = new Cycle[MAX_HISTORY];
-    private static int historyCount = 0;
-    private static int cycleCounter = 0;
-
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Display d = new Display();
 
-        Scanner scanner = new Scanner(System.in);
-        InputHandler input = new InputHandler(scanner);
-        Display display = new Display();
+        Cycle[] history = new Cycle[20];
+        int count = 0;
+        int cycleNo = 0;
 
-        display.printWelcomeBanner();
+        d.printWelcome();
 
         int choice = 0;
 
-        while (choice != 4) {
+        while(choice != 4){
+            d.menu();
+            choice = sc.nextInt();
 
-            display.printMainMenu();
-            choice = input.readMenuChoice();
+            if(choice == 1){
 
-            if (choice == 1) {
+                System.out.print("Evaporator temp (K): ");
+                double te = sc.nextDouble();
 
-                double te = input.readEvaporatorTemperature();
-                double tc = input.readCondenserTemperature(te);
-                double mass = input.readMassFlowRate();
-                double cp = input.readSpecificHeat();
+                System.out.print("Condenser temp (K): ");
+                double tc = sc.nextDouble();
 
-                cycleCounter++;
-                Cycle c = new Cycle("Cycle " + cycleCounter, te, tc, mass, cp);
+                System.out.print("Mass flow rate: ");
+                double mass = sc.nextDouble();
+
+                System.out.print("Specific heat: ");
+                double cp = sc.nextDouble();
+
+                cycleNo++;
+                Cycle c = new Cycle("Cycle " + cycleNo, te, tc, mass, cp);
                 c.calculate();
 
-                display.printCycleResult(c);
+                d.showResult(c);
 
-                if (historyCount < MAX_HISTORY) {
-                    history[historyCount++] = c;
+                if(count < 20){
+                    history[count++] = c;
                 }
+            } 
 
-            } else if (choice == 2) {
-                display.printHistory(history, historyCount);
+            else if(choice == 2) {
+                d.history(history, count);
+            } 
 
-            } else if (choice == 3) {
+            else if(choice == 3){
 
-                if (historyCount < 2) {
-                    display.printError("Not enough data");
+                if (count < 2) {
+                    d.error("Not enough data");
                     continue;
                 }
 
-                display.printHistory(history, historyCount);
+                d.history(history, count);
 
-                int a = input.readCycleIndex("Select first", historyCount);
-                int b = input.readCycleIndex("Select second", historyCount);
+                System.out.print("First cycle: ");
+                int a = sc.nextInt() - 1;
 
-                display.printComparison(history[a], history[b]);
+                System.out.print("Second cycle: ");
+                int b = sc.nextInt() - 1;
 
-            } else if (choice == 4) {
-                display.printGoodbye();
+                d.compare(history[a], history[b]);
             }
         }
-
-        scanner.close();
     }
 }
