@@ -23,30 +23,52 @@ class Cycle {
 
         coolingEffect = massFlowRate * specificHeat * evaporatorTemperature;
 
-        workDoneByCompressor = massFlowRate * specificHeat
-                * (condenserTemperature - evaporatorTemperature);
+        workDoneByCompressor = massFlowRate * specificHeat * (condenserTemperature - evaporatorTemperature);
 
         if (workDoneByCompressor == 0) {
             coefficientOfPerformance = 0;
-        } else {
+        } 
+        else{
             coefficientOfPerformance = coolingEffect / workDoneByCompressor;
         }
     }
 
     public String getEfficiencyRating() {
-        if (coefficientOfPerformance < 2.0) return "Poor";
-        else if (coefficientOfPerformance <= 4.0) return "Moderate";
-        else return "Good";
+        if (coefficientOfPerformance < 2.0) {
+            return "Poor";
+        }
+        else if (coefficientOfPerformance <= 4.0) {
+            return "Moderate";
+        }
+        else {
+            return "Good";
+        }
     }
 
-    public String getCycleLabel() { return cycleLabel; }
-    public double getEvaporatorTemperature() { return evaporatorTemperature; }
-    public double getCondenserTemperature() { return condenserTemperature; }
-    public double getMassFlowRate() { return massFlowRate; }
-    public double getSpecificHeat() { return specificHeat; }
-    public double getCoolingEffect() { return coolingEffect; }
-    public double getWorkDoneByCompressor() { return workDoneByCompressor; }
-    public double getCoefficientOfPerformance() { return coefficientOfPerformance; }
+    public String getCycleLabel() { 
+        return cycleLabel; 
+    }
+    public double getEvaporatorTemperature() { 
+        return evaporatorTemperature; 
+    }
+    public double getCondenserTemperature() { 
+        return condenserTemperature; 
+    }
+    public double getMassFlowRate() { 
+        return massFlowRate; 
+    }
+    public double getSpecificHeat() { 
+        return specificHeat; 
+    }
+    public double getCoolingEffect() { 
+        return coolingEffect; 
+    }
+    public double getWorkDoneByCompressor() { 
+        return workDoneByCompressor; 
+    }
+    public double getCoefficientOfPerformance() { 
+        return coefficientOfPerformance; 
+    }
 }
 
 class Simulator {
@@ -57,34 +79,22 @@ class Simulator {
         System.out.println("Stage 1 - Compression");
         System.out.println("Compressor increases pressure");
         System.out.println("Work done: " + cycle.getWorkDoneByCompressor());
-
         System.out.println();
-
         System.out.println("Stage 2 - Condensation");
         System.out.println("Heat is released in condenser");
         System.out.println("Condenser temp: " + cycle.getCondenserTemperature());
-
         System.out.println();
-
         System.out.println("Stage 3 - Expansion");
         System.out.println("Pressure drops through valve");
-
         System.out.println();
-
         System.out.println("Stage 4 - Evaporation");
         System.out.println("Heat is absorbed in evaporator");
         System.out.println("Cooling effect: " + cycle.getCoolingEffect());
-
         System.out.println();
     }
 }
 
 class Display {
-
-    public void printWelcome() {
-        System.out.println("Vapour Compression Refrigeration Cycle Simulator");
-        System.out.println();
-    }
 
     public void menu() {
         System.out.println("1. New simulation");
@@ -152,14 +162,6 @@ class Display {
 
         System.out.println();
     }
-
-    public void error(String msg) {
-        System.out.println("Error: " + msg);
-    }
-
-    public void bye() {
-        System.out.println("Program finished");
-    }
 }
 
 public class Main {
@@ -171,7 +173,8 @@ public class Main {
         int count = 0;
         int cycleNo = 0;
 
-        d.printWelcome();
+        System.out.println("Vapour Compression Refrigeration Cycle Simulator");
+        System.out.println();
 
         int choice = 0;
 
@@ -204,14 +207,14 @@ public class Main {
                 }
             } 
 
-            else if(choice == 2) {
+            if(choice == 2) {
                 d.history(history, count);
             } 
 
-            else if(choice == 3){
+            if(choice == 3){
 
                 if (count < 2) {
-                    d.error("Not enough data");
+                    System.out.println("Not enough data");
                     continue;
                 }
 
