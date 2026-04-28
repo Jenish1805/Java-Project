@@ -1,0 +1,17 @@
+Efficiency: Poor
+Evaporator temp (K): 100
+Condenser temp (K): 200
+Mass flow rate: 1
+Specific heat: 1
+
+Efficiency: Moderate
+Evaporator temp (K): 200
+Condenser temp (K): 300
+Mass flow rate: 1
+Specific heat: 1
+
+Efficiency: Good
+Evaporator temp (K): 300
+Condenser temp (K): 350
+Mass flow rate: 1
+Specific heat: 1
